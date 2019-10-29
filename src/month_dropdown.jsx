@@ -10,6 +10,7 @@ export default class MonthDropdown extends React.Component {
   static propTypes = {
     dropdownMode: PropTypes.oneOf(["scroll", "select"]).isRequired,
     locale: PropTypes.string,
+    dateFormat: PropTypes.string.isRequired,
     month: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     useShortMonthInDropdown: PropTypes.bool,

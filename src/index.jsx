@@ -61,6 +61,51 @@ function hasPreSelectionChanged(date1, date2) {
 const INPUT_ERR_1 = "Date input not valid.";
 
 export default class DatePicker extends React.Component {
+  static get defaultProps() {
+    return {
+      allowSameDay: false,
+      dateFormat: "MM/dd/yyyy",
+      dateFormatCalendar: "LLLL yyyy",
+      onChange() {},
+      disabled: false,
+      disabledKeyboardNavigation: false,
+      dropdownMode: "scroll",
+      onFocus() {},
+      onBlur() {},
+      onKeyDown() {},
+      onInputClick() {},
+      onSelect() {},
+      onClickOutside() {},
+      onMonthChange() {},
+      preventOpenOnFocus: false,
+      onYearChange() {},
+      onInputError() {},
+      monthsShown: 1,
+      readOnly: false,
+      withPortal: false,
+      shouldCloseOnSelect: true,
+      showTimeSelect: false,
+      showTimeInput: false,
+      showPreviousMonths: false,
+      showMonthYearPicker: false,
+      showQuarterYearPicker: false,
+      strictParsing: false,
+      timeIntervals: 30,
+      timeCaption: "Time",
+      previousMonthButtonLabel: "Previous Month",
+      nextMonthButtonLabel: "Next Month",
+      previousYearButtonLabel: "Previous Year",
+      nextYearButtonLabel: "Next Year",
+      timeInputLabel: "Time",
+
+      renderDayContents(date) {
+        return date;
+      },
+      inlineFocusSelectedMonth: false,
+      showPopperArrow: true
+    };
+  }
+
   static propTypes = {
     adjustDateOnChange: PropTypes.bool,
     allowSameDay: PropTypes.bool,
@@ -176,51 +221,6 @@ export default class DatePicker extends React.Component {
     accessibleMode: PropTypes.bool,
     accessibleModeButton: PropTypes.element
   };
-
-  static get defaultProps() {
-    return {
-      allowSameDay: false,
-      dateFormat: "MM/dd/yyyy",
-      dateFormatCalendar: "LLLL yyyy",
-      onChange() {},
-      disabled: false,
-      disabledKeyboardNavigation: false,
-      dropdownMode: "scroll",
-      onFocus() {},
-      onBlur() {},
-      onKeyDown() {},
-      onInputClick() {},
-      onSelect() {},
-      onClickOutside() {},
-      onMonthChange() {},
-      preventOpenOnFocus: false,
-      onYearChange() {},
-      onInputError() {},
-      monthsShown: 1,
-      readOnly: false,
-      withPortal: false,
-      shouldCloseOnSelect: true,
-      showTimeSelect: false,
-      showTimeInput: false,
-      showPreviousMonths: false,
-      showMonthYearPicker: false,
-      showQuarterYearPicker: false,
-      strictParsing: false,
-      timeIntervals: 30,
-      timeCaption: "Time",
-      previousMonthButtonLabel: "Previous Month",
-      nextMonthButtonLabel: "Next Month",
-      previousYearButtonLabel: "Previous Year",
-      nextYearButtonLabel: "Next Year",
-      timeInputLabel: "Time",
-
-      renderDayContents(date) {
-        return date;
-      },
-      inlineFocusSelectedMonth: false,
-      showPopperArrow: true
-    };
-  }
 
   constructor(props) {
     super(props);

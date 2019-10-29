@@ -23,6 +23,21 @@ function doHoursAndMinutesAlign(time1, time2) {
 }
 
 export default class Time extends React.Component {
+  static get defaultProps() {
+    return {
+      intervals: 30,
+      onTimeChange: () => {},
+      todayButton: null,
+      timeCaption: "Time"
+    };
+  }
+
+  static calcCenterPosition = (listHeight, centerLiRef) => {
+    return (
+      centerLiRef.offsetTop - (listHeight / 2 - centerLiRef.clientHeight / 2)
+    );
+  };
+
   static propTypes = {
     format: PropTypes.string,
     includeTimes: PropTypes.array,
@@ -41,21 +56,6 @@ export default class Time extends React.Component {
       PropTypes.shape({ locale: PropTypes.object })
     ]),
     accessibleMode: PropTypes.bool
-  };
-
-  static get defaultProps() {
-    return {
-      intervals: 30,
-      onTimeChange: () => {},
-      todayButton: null,
-      timeCaption: "Time"
-    };
-  }
-
-  static calcCenterPosition = (listHeight, centerLiRef) => {
-    return (
-      centerLiRef.offsetTop - (listHeight / 2 - centerLiRef.clientHeight / 2)
-    );
   };
 
   constructor(...args) {
