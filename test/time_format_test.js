@@ -1,16 +1,19 @@
 import React from "react";
 import { mount } from "enzyme";
 import TimeComponent from "../src/time";
-import moment from "moment";
+import * as utils from "../src/date_utils";
+import ptBR from "date-fns/locale/pt-BR";
 
 describe("TimeComponent", () => {
+  utils.registerLocale("pt-BR", ptBR);
+
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     // mock global time to June 14, 1990 13:28:12, so test results will be constant
     sandbox.useFakeTimers({
-      now: moment("1990-06-14 13:28").valueOf(),
+      now: new Date("1990-06-14 13:28").valueOf(),
       toFake: ["Date"]
     });
   });
@@ -20,6 +23,11 @@ describe("TimeComponent", () => {
   });
 
   describe("Format", () => {
+    let spy;
+    beforeEach(() => {
+      spy = sandbox.spy(TimeComponent, "calcCenterPosition");
+    });
+
     it("should forward the time format provided in timeFormat props", () => {
       var timeComponent = mount(<TimeComponent format="HH:mm" />);
 
@@ -27,6 +35,16 @@ describe("TimeComponent", () => {
         ".react-datepicker__time-list-item"
       );
       expect(timeListItem.at(0).text()).to.eq("00:00");
+    });
+
+    it("should format the time based on the default locale (en-US)", () => {
+      mount(<TimeComponent format="p" />);
+      expect(spy.args[0][1].innerHTML).to.eq("1:00 PM");
+    });
+
+    it("should format the time based on the pt-BR locale", () => {
+      mount(<TimeComponent format="p" locale="pt-BR" />);
+      expect(spy.args[0][1].innerHTML).to.eq("13:00");
     });
   });
 
@@ -48,14 +66,14 @@ describe("TimeComponent", () => {
 
     it("should call calcCenterPosition with centerLi ref, closest to the selected time", () => {
       mount(
-        <TimeComponent format="HH:mm" selected={moment("1990-06-14 08:11")} />
+        <TimeComponent format="HH:mm" selected={new Date("1990-06-14 08:11")} />
       );
       expect(spy.args[0][1].innerHTML).to.eq("08:00");
     });
 
     it("should call calcCenterPosition with centerLi ref, which is selected", () => {
       mount(
-        <TimeComponent format="HH:mm" selected={moment("1990-06-14 08:00")} />
+        <TimeComponent format="HH:mm" selected={new Date("1990-06-14 08:00")} />
       );
       expect(
         spy.args[0][1].classList.contains(

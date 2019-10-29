@@ -12,31 +12,34 @@ export default class Week extends React.Component {
   }
   static propTypes = {
     disabledKeyboardNavigation: PropTypes.bool,
-    day: PropTypes.object.isRequired,
+    day: PropTypes.instanceOf(Date).isRequired,
     dayClassName: PropTypes.func,
-    endDate: PropTypes.object,
+    endDate: PropTypes.instanceOf(Date),
     excludeDates: PropTypes.array,
     filterDate: PropTypes.func,
     formatWeekNumber: PropTypes.func,
     highlightDates: PropTypes.instanceOf(Map),
     includeDates: PropTypes.array,
     inline: PropTypes.bool,
-    maxDate: PropTypes.object,
-    minDate: PropTypes.object,
+    locale: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({ locale: PropTypes.object })
+    ]),
+    maxDate: PropTypes.instanceOf(Date),
+    minDate: PropTypes.instanceOf(Date),
     month: PropTypes.number,
     onDayClick: PropTypes.func,
     onDayMouseEnter: PropTypes.func,
     onWeekSelect: PropTypes.func,
-    preSelection: PropTypes.object,
-    selected: PropTypes.object,
-    selectingDate: PropTypes.object,
+    preSelection: PropTypes.instanceOf(Date),
+    selected: PropTypes.instanceOf(Date),
+    selectingDate: PropTypes.instanceOf(Date),
     selectsEnd: PropTypes.bool,
     selectsStart: PropTypes.bool,
     showWeekNumber: PropTypes.bool,
-    startDate: PropTypes.object,
+    startDate: PropTypes.instanceOf(Date),
     setOpen: PropTypes.func,
     shouldCloseOnSelect: PropTypes.bool,
-    utcOffset: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     renderDayContents: PropTypes.func,
     accessibleMode: PropTypes.bool
   };
@@ -62,15 +65,15 @@ export default class Week extends React.Component {
     }
   };
 
-  formatWeekNumber = startOfWeek => {
+  formatWeekNumber = date => {
     if (this.props.formatWeekNumber) {
-      return this.props.formatWeekNumber(startOfWeek);
+      return this.props.formatWeekNumber(date);
     }
-    return utils.getWeek(startOfWeek);
+    return utils.getWeek(date);
   };
 
   renderDays = () => {
-    const startOfWeek = utils.getStartOfWeek(utils.cloneDate(this.props.day));
+    const startOfWeek = utils.getStartOfWeek(this.props.day, this.props.locale);
     const days = [];
     const weekNumber = this.formatWeekNumber(startOfWeek);
     if (this.props.showWeekNumber) {
@@ -83,7 +86,7 @@ export default class Week extends React.Component {
     }
     return days.concat(
       [0, 1, 2, 3, 4, 5, 6].map(offset => {
-        const day = utils.addDays(utils.cloneDate(startOfWeek), offset);
+        const day = utils.addDays(startOfWeek, offset);
         return (
           <Day
             key={offset}
@@ -106,7 +109,6 @@ export default class Week extends React.Component {
             startDate={this.props.startDate}
             endDate={this.props.endDate}
             dayClassName={this.props.dayClassName}
-            utcOffset={this.props.utcOffset}
             renderDayContents={this.props.renderDayContents}
             disabledKeyboardNavigation={this.props.disabledKeyboardNavigation}
             accessibleMode={this.props.accessibleMode}

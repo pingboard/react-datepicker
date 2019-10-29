@@ -5,31 +5,35 @@ import {
   getDay,
   getMonth,
   getDate,
-  now,
+  newDate,
   isSameDay,
   isDayDisabled,
+  isDayExcluded,
   isDayInRange,
-  getDayOfWeekCode
+  isEqual,
+  isBefore,
+  isAfter,
+  getDayOfWeekCode,
+  formatDate
 } from "./date_utils";
 
 export default class Day extends React.Component {
   static propTypes = {
     disabledKeyboardNavigation: PropTypes.bool,
-    day: PropTypes.object.isRequired,
+    day: PropTypes.instanceOf(Date).isRequired,
     dayClassName: PropTypes.func,
-    endDate: PropTypes.object,
+    endDate: PropTypes.instanceOf(Date),
     highlightDates: PropTypes.instanceOf(Map),
     inline: PropTypes.bool,
     month: PropTypes.number,
     onClick: PropTypes.func,
     onMouseEnter: PropTypes.func,
-    preSelection: PropTypes.object,
+    preSelection: PropTypes.instanceOf(Date),
     selected: PropTypes.object,
-    selectingDate: PropTypes.object,
+    selectingDate: PropTypes.instanceOf(Date),
     selectsEnd: PropTypes.bool,
     selectsStart: PropTypes.bool,
-    startDate: PropTypes.object,
-    utcOffset: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    startDate: PropTypes.instanceOf(Date),
     renderDayContents: PropTypes.func,
     accessibleMode: PropTypes.bool
   };
@@ -56,6 +60,8 @@ export default class Day extends React.Component {
 
   isDisabled = () => isDayDisabled(this.props.day, this.props);
 
+  isExcluded = () => isDayExcluded(this.props.day, this.props);
+
   getHighLightedClass = defaultClassName => {
     const { day, highlightDates } = this.props;
 
@@ -64,7 +70,7 @@ export default class Day extends React.Component {
     }
 
     // Looking for className in the Map of {'day string, 'className'}
-    const dayStr = day.format("MM.DD.YYYY");
+    const dayStr = formatDate(day, "MM.dd.yyyy");
     return highlightDates.get(dayStr);
   };
 
@@ -90,11 +96,19 @@ export default class Day extends React.Component {
       return false;
     }
 
-    if (selectsStart && endDate && selectingDate.isSameOrBefore(endDate)) {
+    if (
+      selectsStart &&
+      endDate &&
+      (isBefore(selectingDate, endDate) || isEqual(selectingDate, endDate))
+    ) {
       return isDayInRange(day, selectingDate, endDate);
     }
 
-    if (selectsEnd && startDate && selectingDate.isSameOrAfter(startDate)) {
+    if (
+      selectsEnd &&
+      startDate &&
+      (isAfter(selectingDate, startDate) || isEqual(selectingDate, startDate))
+    ) {
       return isDayInRange(day, startDate, selectingDate);
     }
 
@@ -167,6 +181,7 @@ export default class Day extends React.Component {
       "react-datepicker__day--" + getDayOfWeekCode(this.props.day),
       {
         "react-datepicker__day--disabled": this.isDisabled(),
+        "react-datepicker__day--excluded": this.isExcluded(),
         "react-datepicker__day--selected": this.isSameDay(this.props.selected),
         "react-datepicker__day--keyboard-selected": this.isKeyboardSelected(),
         "react-datepicker__day--range-start": this.isRangeStart(),
@@ -175,9 +190,7 @@ export default class Day extends React.Component {
         "react-datepicker__day--in-selecting-range": this.isInSelectingRange(),
         "react-datepicker__day--selecting-range-start": this.isSelectingRangeStart(),
         "react-datepicker__day--selecting-range-end": this.isSelectingRangeEnd(),
-        "react-datepicker__day--today": this.isSameDay(
-          now(this.props.utcOffset)
-        ),
+        "react-datepicker__day--today": this.isSameDay(newDate()),
         "react-datepicker__day--weekend": this.isWeekend(),
         "react-datepicker__day--outside-month": this.isOutsideMonth()
       },
@@ -192,9 +205,13 @@ export default class Day extends React.Component {
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
         aria-label={`day-${getDate(this.props.day)}`}
+        aria-disabled={this.isDisabled()}
       >
         {this.props.renderDayContents
-          ? this.props.renderDayContents(getDate(this.props.day))
+          ? this.props.renderDayContents(
+              getDate(this.props.day),
+              this.props.day
+            )
           : getDate(this.props.day)}
       </div>
     );

@@ -10,13 +10,13 @@ export default class YearDropdown extends React.Component {
   static propTypes = {
     adjustDateOnChange: PropTypes.bool,
     dropdownMode: PropTypes.oneOf(["scroll", "select"]).isRequired,
-    maxDate: PropTypes.object,
-    minDate: PropTypes.object,
+    maxDate: PropTypes.instanceOf(Date),
+    minDate: PropTypes.instanceOf(Date),
     onChange: PropTypes.func.isRequired,
     scrollableYearDropdown: PropTypes.bool,
     year: PropTypes.number.isRequired,
     yearDropdownItemNumber: PropTypes.number,
-    date: PropTypes.object,
+    date: PropTypes.instanceOf(Date),
     onSelect: PropTypes.func,
     setOpen: PropTypes.func,
     accessibleMode: PropTypes.bool
@@ -102,9 +102,7 @@ export default class YearDropdown extends React.Component {
       onClick={event => this.toggleDropdown(event)}
       onKeyDown={this.onReadViewKeyDown}
       tabIndex={this.props.accessibleMode ? "0" : undefined}
-      aria-label={`Button. Open the year selector. ${
-        this.props.year
-      } is currently selected.`}
+      aria-label={`Button. Open the year selector. ${this.props.year} is currently selected.`}
     >
       <span className="react-datepicker__year-read-view--down-arrow" />
       <span className="react-datepicker__year-read-view--selected-year">
@@ -186,9 +184,7 @@ export default class YearDropdown extends React.Component {
 
     return (
       <div
-        className={`react-datepicker__year-dropdown-container react-datepicker__year-dropdown-container--${
-          this.props.dropdownMode
-        }`}
+        className={`react-datepicker__year-dropdown-container react-datepicker__year-dropdown-container--${this.props.dropdownMode}`}
       >
         {renderedDropdown}
       </div>

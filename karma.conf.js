@@ -1,17 +1,12 @@
 // Karma configuration
-// Generated on Tue Jul 28 2015 16:29:51 GMT+0200 (CEST)
-var webpack = require("webpack");
-var path = require("path");
-
-var CONTINUOUS_INTEGRATION = process.env.CONTINUOUS_INTEGRATION === "true";
+const webpack = require("webpack");
+const path = require("path");
 
 module.exports = function(config) {
   config.set({
     frameworks: ["mocha", "sinon", "chai"],
 
-    browsers: ["Firefox"],
-
-    singleRun: CONTINUOUS_INTEGRATION,
+    browsers: ["FirefoxHeadless"],
 
     files: ["test/index.js"],
 
@@ -19,16 +14,17 @@ module.exports = function(config) {
       "test/index.js": ["webpack", "sourcemap"]
     },
 
-    reporters: ["dots", "coverage"],
+    reporters: ["mocha", "coverage"],
 
     webpack: {
+      mode: "development",
       devtool: "inline-source-map",
       module: {
-        loaders: [
+        rules: [
           {
             test: /\.jsx?$/,
             exclude: /node_modules/,
-            loader: "babel",
+            loader: "babel-loader",
             query: {
               presets: ["airbnb"]
             }
@@ -36,7 +32,9 @@ module.exports = function(config) {
           {
             test: /\.jsx?$/,
             include: path.resolve(__dirname, "src"),
-            loader: "isparta"
+            loader: "istanbul-instrumenter-loader",
+            enforce: "post",
+            options: { esModules: true }
           }
         ]
       },
@@ -46,7 +44,7 @@ module.exports = function(config) {
         })
       ],
       resolve: {
-        extensions: ["", ".jsx", ".js"]
+        extensions: [".jsx", ".js"]
       },
       externals: {
         cheerio: "window",

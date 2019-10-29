@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import FocusTrap from "focus-trap-react";
 import { ScreenReaderOnly } from "./screen_reader_only";
+import { getYear } from "./date_utils";
 
 function generateYears(year, noOfYear, minDate, maxDate) {
   var list = [];
@@ -11,11 +12,11 @@ function generateYears(year, noOfYear, minDate, maxDate) {
     let isInRange = true;
 
     if (minDate) {
-      isInRange = minDate.year() <= newYear;
+      isInRange = getYear(minDate) <= newYear;
     }
 
     if (maxDate && isInRange) {
-      isInRange = maxDate.year() >= newYear;
+      isInRange = getYear(maxDate) >= newYear;
     }
 
     if (isInRange) {
@@ -28,8 +29,8 @@ function generateYears(year, noOfYear, minDate, maxDate) {
 
 export default class YearDropdownOptions extends React.Component {
   static propTypes = {
-    minDate: PropTypes.object,
-    maxDate: PropTypes.object,
+    minDate: PropTypes.instanceOf(Date),
+    maxDate: PropTypes.instanceOf(Date),
     onCancel: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     scrollableYearDropdown: PropTypes.bool,
@@ -105,8 +106,8 @@ export default class YearDropdownOptions extends React.Component {
       </div>
     ));
 
-    const minYear = this.props.minDate ? this.props.minDate.year() : null;
-    const maxYear = this.props.maxDate ? this.props.maxDate.year() : null;
+    const minYear = this.props.minDate ? getYear(this.props.minDate) : null;
+    const maxYear = this.props.maxDate ? getYear(this.props.maxDate) : null;
 
     if (!maxYear || !this.state.yearsList.find(year => year === maxYear)) {
       options.unshift(

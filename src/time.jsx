@@ -3,12 +3,11 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import { ScreenReaderOnly } from "./screen_reader_only";
 import {
-  getHour,
-  getMinute,
+  getHours,
+  getMinutes,
   newDate,
   getStartOfDay,
   addMinutes,
-  cloneDate,
   formatDate,
   isTimeInDisabledRange,
   isTimeDisabled,
@@ -28,15 +27,19 @@ export default class Time extends React.Component {
     format: PropTypes.string,
     includeTimes: PropTypes.array,
     intervals: PropTypes.number,
-    selected: PropTypes.object,
+    selected: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
     todayButton: PropTypes.node,
-    minTime: PropTypes.object,
-    maxTime: PropTypes.object,
+    minTime: PropTypes.instanceOf(Date),
+    maxTime: PropTypes.instanceOf(Date),
     excludeTimes: PropTypes.array,
     monthRef: PropTypes.object,
     timeCaption: PropTypes.string,
     injectTimes: PropTypes.array,
+    locale: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({ locale: PropTypes.object })
+    ]),
     accessibleMode: PropTypes.bool
   };
 
@@ -69,7 +72,8 @@ export default class Time extends React.Component {
     this.timeFormat = "hh:mm A";
     this.state = {
       preSelection,
-      readInstructions: false
+      readInstructions: false,
+      height: null
     };
   }
 
@@ -100,6 +104,12 @@ export default class Time extends React.Component {
         second: 0
       });
       this.setState({ preSelection: closestTime });
+    }
+
+    if (this.props.monthRef && this.header) {
+      this.setState({
+        height: this.props.monthRef.clientHeight - this.header.clientHeight
+      });
     }
   }
 
@@ -156,7 +166,6 @@ export default class Time extends React.Component {
     ) {
       return;
     }
-
     this.props.onChange(time);
   };
 
@@ -183,7 +192,7 @@ export default class Time extends React.Component {
     }
     if (
       this.props.injectTimes &&
-      (getHour(time) * 60 + getMinute(time)) % this.props.intervals !== 0
+      (getHours(time) * 60 + getMinutes(time)) % this.props.intervals !== 0
     ) {
       classes.push("react-datepicker__time-list-item--injected");
     }
@@ -193,7 +202,11 @@ export default class Time extends React.Component {
 
   generateTimes = () => {
     let times = [];
+    const format = this.props.format ? this.props.format : "p";
     const intervals = this.props.intervals;
+    const activeTime = this.props.selected ? this.props.selected : newDate();
+    const currH = getHours(activeTime);
+    const currM = getMinutes(activeTime);
     let base = getStartOfDay(newDate());
     const multiplier = 1440 / intervals;
     const sortedInjectTimes =
@@ -202,7 +215,7 @@ export default class Time extends React.Component {
         return a - b;
       });
     for (let i = 0; i < multiplier; i++) {
-      const currentTime = addMinutes(cloneDate(base), i * intervals);
+      const currentTime = addMinutes(base, i * intervals);
       times.push(currentTime);
 
       if (sortedInjectTimes) {
@@ -232,8 +245,8 @@ export default class Time extends React.Component {
         className={this.liClasses(time, activeTime)}
         ref={li => {
           if (
-            (currH === getHour(time) && currM === getMinute(time)) ||
-            (currH === getHour(time) && !this.centerLi)
+            (currH === getHours(time) && currM === getMinutes(time)) ||
+            (currH === getHours(time) && !this.centerLi)
           ) {
             this.centerLi = li;
           }
@@ -250,16 +263,13 @@ export default class Time extends React.Component {
         role="option"
         id={i}
       >
-        {formatDate(time, format)}
+        {formatDate(time, format, this.props.locale)}
       </li>
     ));
   };
 
   render() {
-    let height = null;
-    if (this.props.monthRef && this.header) {
-      height = this.props.monthRef.clientHeight - this.header.clientHeight;
-    }
+    const { height } = this.state;
 
     const classNames = classnames("react-datepicker__time-container", {
       "react-datepicker__time-container--with-today-button": this.props
@@ -312,7 +322,7 @@ export default class Time extends React.Component {
               style={height ? { height } : {}}
               role="listbox"
             >
-              {this.renderTimes.bind(this)()}
+              {this.renderTimes()}
             </ul>
           </div>
         </div>
