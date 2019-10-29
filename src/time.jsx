@@ -70,7 +70,7 @@ export default class Time extends React.Component {
       }
     }, null);
 
-    this.timeFormat = "hh:mm A";
+    this.timeFormat = "p";
     this.state = {
       preSelection,
       readInstructions: false,
