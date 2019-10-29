@@ -383,7 +383,6 @@ export default class Month extends React.Component {
         <ScreenReaderOnly>
           <span>{screenReaderInstructions}</span>
         </ScreenReaderOnly>
-        {this.renderWeeks()}>
         {showMonthYearPicker
           ? this.renderMonths()
           : showQuarterYearPicker

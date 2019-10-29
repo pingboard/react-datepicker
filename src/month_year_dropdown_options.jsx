@@ -87,11 +87,16 @@ export default class MonthYearDropdownOptions extends React.Component {
 
       return (
         <div
-          className={classNames("react-datepicker__month-year-option", {
-            "--selected_month-year": isSameMonthYear,
-            "react-datepicker__month-year-option--preselected":
-              this.props.accessibleMode && isPreselectionSameMonthYear
-          })}
+          className={classNames(
+            "react-datepicker__month-year-option",
+            {
+              "react-datepicker__month-year-option--selected_month-year": isSameMonthYear
+            },
+            {
+              "react-datepicker__month-year-option--preselected":
+                this.props.accessibleMode && isPreselectionSameMonthYear
+            }
+          )}
           key={monthYearPoint}
           ref={div => {
             if (this.props.accessibleMode && isPreselectionSameMonthYear) {

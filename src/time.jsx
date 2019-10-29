@@ -18,7 +18,8 @@ import {
 function doHoursAndMinutesAlign(time1, time2) {
   if (time1 == null || time2 == null) return false;
   return (
-    getHour(time1) === getHour(time2) && getMinute(time1) === getMinute(time2)
+    getHours(time1) === getHours(time2) &&
+    getMinutes(time1) === getMinutes(time2)
   );
 }
 
@@ -89,11 +90,11 @@ export default class Time extends React.Component {
     if (this.state.preSelection == null) {
       // there is no pre-selection, find the element closest to the selected time and preselect it
       const currH = this.props.selected
-        ? getHour(this.props.selected)
-        : getHour(newDate());
+        ? getHours(this.props.selected)
+        : getHours(newDate());
       const currM = this.props.selected
-        ? getMinute(this.props.selected)
-        : getMinute(newDate());
+        ? getMinutes(this.props.selected)
+        : getMinutes(newDate());
       const closestTimeIndex = Math.floor(
         (60 * currH + currM) / this.props.intervals
       );
@@ -236,8 +237,8 @@ export default class Time extends React.Component {
     const times = this.generateTimes();
     const activeTime = this.props.selected ? this.props.selected : newDate();
     const format = this.props.format ? this.props.format : this.timeFormat;
-    const currH = getHour(activeTime);
-    const currM = getMinute(activeTime);
+    const currH = getHours(activeTime);
+    const currM = getMinutes(activeTime);
     return times.map((time, i) => (
       <li
         key={i}
