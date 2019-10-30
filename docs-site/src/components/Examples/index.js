@@ -66,6 +66,8 @@ import RangeMonthPicker from "../../examples/rangeMonthPicker";
 import QuarterPicker from "../../examples/quarterPicker";
 import RangeQuarterPicker from "../../examples/rangeQuarterPicker";
 import AccessibleMode from "../../examples/accessibleMode";
+import AccessibleModeMonthRange from "../../examples/accessibleModeMonthRange";
+import AccessibleModeCustomHeader from "../../examples/accessibleModeCustomHeader";
 
 import "./style.scss";
 import "react-datepicker/dist/react-datepicker.css";
@@ -328,6 +330,14 @@ export default class exampleComponents extends React.Component {
     {
       title: "Accessible Mode",
       component: AccessibleMode
+    },
+    {
+      title: "Accessible Mode Range Month Picker",
+      component: AccessibleModeMonthRange
+    },
+    {
+      title: "Accessible Mode Custom Header",
+      component: AccessibleModeCustomHeader
     }
   ];
 
