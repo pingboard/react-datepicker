@@ -229,6 +229,10 @@ export default class DatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.calcInitialState();
+
+    if (this.props.startOpen) {
+      this.props.onOpen();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -738,6 +742,7 @@ export default class DatePicker extends React.Component {
         showPopperArrow={this.props.showPopperArrow}
         updateSelection={this.updateSelection}
         accessibleMode={this.props.accessibleMode}
+        onKeyDown={this.props.onKeyDown}
       >
         {this.props.children}
       </WrappedCalendar>

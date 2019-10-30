@@ -62,7 +62,8 @@ export default class Calendar extends React.Component {
       previousYearButtonLabel: "Previous Year",
       nextYearButtonLabel: "Next Year",
       previousMonthButtonLabel: "Previous Month",
-      nextMonthButtonLabel: "Next Month"
+      nextMonthButtonLabel: "Next Month",
+      onKeyDown: () => {}
     };
   }
 
@@ -148,7 +149,8 @@ export default class Calendar extends React.Component {
     onMonthMouseLeave: PropTypes.func,
     showPopperArrow: PropTypes.bool,
     updateSelection: PropTypes.func.isRequired,
-    accessibleMode: PropTypes.bool
+    accessibleMode: PropTypes.bool,
+    onKeyDown: PropTypes.func
   };
 
   constructor(props) {
@@ -677,6 +679,7 @@ export default class Calendar extends React.Component {
             showQuarterYearPicker={this.props.showQuarterYearPicker}
             updateSelection={this.props.updateSelection}
             accessibleMode={this.props.accessibleMode}
+            onKeyDown={this.props.onKeyDown}
           />
         </div>
       );

@@ -29,6 +29,7 @@ export default class Month extends React.Component {
     minDate: PropTypes.instanceOf(Date),
     onDayClick: PropTypes.func,
     onDayMouseEnter: PropTypes.func,
+    onKeyDown: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onWeekSelect: PropTypes.func,
     peekNextMonth: PropTypes.bool,
@@ -82,6 +83,8 @@ export default class Month extends React.Component {
   };
 
   onInputKeyDown = event => {
+    this.props.onKeyDown(event);
+
     const eventKey = event.key;
     const copy = utils.newDate(this.props.preSelection);
     let newSelection;
