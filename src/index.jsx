@@ -786,7 +786,7 @@ export default class DatePicker extends React.Component {
           aria-label="Close"
           onClick={this.onClearClick}
           title={this.props.clearButtonTitle}
-          tabIndex={-1}
+          tabIndex={this.props.accessibleMode ? 0 : -1}
         />
       );
     } else {
