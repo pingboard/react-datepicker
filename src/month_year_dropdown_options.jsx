@@ -49,7 +49,7 @@ export default class MonthYearDropdownOptions extends React.Component {
         this.props.minDate,
         this.props.maxDate
       ),
-      preSelection: getStartOfMonth(cloneDate(this.props.date)),
+      preSelection: getStartOfMonth(this.props.date),
       readInstructions: false
     };
   }
@@ -137,12 +137,12 @@ export default class MonthYearDropdownOptions extends React.Component {
       case "ArrowUp":
         event.preventDefault();
         event.stopPropagation();
-        newSelection = addMonths(cloneDate(this.state.preSelection), -1);
+        newSelection = addMonths(this.state.preSelection, -1);
         break;
       case "ArrowDown":
         event.preventDefault();
         event.stopPropagation();
-        newSelection = addMonths(cloneDate(this.state.preSelection), 1);
+        newSelection = addMonths(this.state.preSelection, 1);
         break;
       case "Escape":
         event.preventDefault();

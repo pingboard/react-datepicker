@@ -51,7 +51,7 @@ export default class Month extends React.Component {
   constructor(props) {
     super(props);
 
-    this.dayFormat = "MMMM D, YYYY.";
+    this.dayFormat = "MMMM dd, yyyy.";
     this.state = {
       readInstructions: false
     };
@@ -87,25 +87,25 @@ export default class Month extends React.Component {
     let newSelection;
     switch (eventKey) {
       case "ArrowLeft":
-        newSelection = utils.subtractDays(copy, 1);
+        newSelection = utils.subDays(copy, 1);
         break;
       case "ArrowRight":
         newSelection = utils.addDays(copy, 1);
         break;
       case "ArrowUp":
-        newSelection = utils.subtractWeeks(copy, 1);
+        newSelection = utils.subWeeks(copy, 1);
         break;
       case "ArrowDown":
         newSelection = utils.addWeeks(copy, 1);
         break;
       case "PageUp":
-        newSelection = utils.subtractMonths(copy, 1);
+        newSelection = utils.subMonths(copy, 1);
         break;
       case "PageDown":
         newSelection = utils.addMonths(copy, 1);
         break;
       case "Home":
-        newSelection = utils.subtractYears(copy, 1);
+        newSelection = utils.subYears(copy, 1);
         break;
       case "End":
         newSelection = utils.addYears(copy, 1);

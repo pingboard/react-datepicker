@@ -736,24 +736,6 @@ export default class DatePicker extends React.Component {
     );
 
     return calendar;
-
-    // if (this.props.accessibleMode && !this.props.inline) {
-    //   const initialFocusTarget = this.props.showTimeSelectOnly
-    //     ? ".react-datepicker__time-box--accessible"
-    //     : ".react-datepicker__month--accessible";
-    //   return (
-    //     <FocusTrap
-    //       focusTrapOptions={{
-    //         onDeactivate: () => this.setOpen(false),
-    //         initialFocus: initialFocusTarget
-    //       }}
-    //     >
-    //       {calendar}
-    //     </FocusTrap>
-    //   );
-    // } else {
-    //   return calendar;
-    // }
   };
 
   renderDateInput = () => {

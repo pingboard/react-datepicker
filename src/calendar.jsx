@@ -261,7 +261,7 @@ export default class Calendar extends React.Component {
       this.props.onYearChange(date);
     }
     if (this.props.accessibleMode) {
-      this.props.updateSelection(getStartOfMonth(cloneDate(date)));
+      this.props.updateSelection(getStartOfMonth(date));
     }
   };
 
@@ -278,7 +278,7 @@ export default class Calendar extends React.Component {
       }
     }
     if (this.props.accessibleMode) {
-      this.props.updateSelection(getStartOfMonth(cloneDate(date)));
+      this.props.updateSelection(getStartOfMonth(date));
     }
   };
 
