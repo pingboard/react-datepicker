@@ -16,7 +16,6 @@ import {
   addMonths,
   subMonths,
   getStartOfWeek,
-  getStartOfDate,
   getStartOfMonth,
   getStartOfToday,
   addDays,
