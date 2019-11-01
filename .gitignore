@@ -92,9 +92,10 @@ typings/
 
 # End of https://www.gitignore.io/api/node
 
-# dist # Ignore dist/ for hosting from GitHub, since using the prepare script with yarn is buggy
-lib
-es
+# Check in built files for hosting from GitHub, since using the prepare script with yarn is buggy
+# dist
+# lib
+# es
 tmp
 
 .vscode
