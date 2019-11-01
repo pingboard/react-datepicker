@@ -359,7 +359,8 @@ export default class DatePicker extends React.Component {
       this.props.onFocus(event);
       if (
         !this.props.preventOpenOnFocus &&
-        !this.props.readOnly & !this.props.accessibleMode
+        !this.props.readOnly &&
+        !this.props.accessibleMode
       ) {
         this.setOpen(true);
       }
@@ -549,7 +550,14 @@ export default class DatePicker extends React.Component {
   };
 
   onInputClick = () => {
-    if (!this.props.disabled && !this.props.readOnly) {
+    const useAccessibleModeButtonToOpen =
+      this.props.accessibleMode && this.props.accessibleModeButton != null;
+
+    if (
+      !this.props.disabled &&
+      !this.props.readOnly &&
+      !useAccessibleModeButtonToOpen
+    ) {
       this.setOpen(true);
     }
 
