@@ -549,9 +549,11 @@ export default class DatePicker extends React.Component {
     this.setState({ inputValue: null });
   };
 
-  onInputClick = () => {
+  onInputClick = ({ skipOpenIfAccessibleMode = false } = {}) => {
     const useAccessibleModeButtonToOpen =
-      this.props.accessibleMode && this.props.accessibleModeButton != null;
+      skipOpenIfAccessibleMode &&
+      this.props.accessibleMode &&
+      this.props.accessibleModeButton != null;
 
     if (
       !this.props.disabled &&
@@ -780,7 +782,9 @@ export default class DatePicker extends React.Component {
       value: inputValue,
       onBlur: this.handleBlur,
       onChange: this.handleChange,
-      onClick: this.onInputClick,
+      // In accessible mode, directly clicking on the textbox should _not_ open the dropdown automatically
+      // (should use the accessibleModeButton to open instead)
+      onClick: () => this.onInputClick({ skipOpenIfAccessibleMode: true }),
       onFocus: this.handleFocus,
       onKeyDown: this.onInputKeyDown,
       id: this.props.id,
