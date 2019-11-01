@@ -130,8 +130,7 @@
     "css:modules:prod": "node-sass --output-style compressed src/stylesheets/datepicker-cssmodules.scss > dist/react-datepicker-cssmodules.min.css",
     "css:dev": "node-sass --output-style expanded src/stylesheets/datepicker.scss > dist/react-datepicker.css",
     "css:modules:dev": "node-sass --output-style expanded src/stylesheets/datepicker-cssmodules.scss > dist/react-datepicker-cssmodules.css",
-    "build:js": "rollup -c",
-    "prepare": "yarn build"
+    "build:js": "rollup -c"
   },
   "lint-staged": {
     "*.{js,jsx,json,css,scss,md}": [
