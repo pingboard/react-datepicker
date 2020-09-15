@@ -382,20 +382,18 @@ export default class DatePicker extends React.Component {
     this.cancelFocusInput();
   };
 
-  handleBlur = event => {
-    if (this.props.accessibleMode === true) {
-      // allow normal de-focusing in a11y mode
-      return;
-    }
-
-    if (
-      this.state.open &&
-      !this.props.withPortal &&
-      !this.props.showTimeInput
-    ) {
-      this.deferFocusInput();
-    } else {
-      this.props.onBlur(event);
+  handleBlur = (event) => {
+    // allows normal de-focusing in a11y mode
+    if (this.props.accessibleMode !== true) {
+      if (
+        this.state.open &&
+        !this.props.withPortal &&
+        !this.props.showTimeInput
+      ) {
+        this.deferFocusInput();
+      } else {
+        this.props.onBlur(event);
+      }
     }
     this.setState({ focused: false });
   };
