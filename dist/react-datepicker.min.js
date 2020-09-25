@@ -3630,8 +3630,8 @@
             !0 !== r.props.accessibleMode &&
               (!r.state.open || r.props.withPortal || r.props.showTimeInput
                 ? r.props.onBlur(e)
-                : r.deferFocusInput(),
-              r.setState({ focused: !1 }));
+                : r.deferFocusInput()),
+              r.setState({ focused: !1 });
           }),
           ue(ve(r), "handleCalendarClickOutside", function(e) {
             r.props.inline || r.setOpen(!1),

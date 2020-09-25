@@ -3355,8 +3355,8 @@ var Mt = "Date input not valid.",
           !0 !== a.props.accessibleMode &&
             (!a.state.open || a.props.withPortal || a.props.showTimeInput
               ? a.props.onBlur(e)
-              : a.deferFocusInput(),
-            a.setState({ focused: !1 }));
+              : a.deferFocusInput()),
+            a.setState({ focused: !1 });
         }),
         ce(ve(a), "handleCalendarClickOutside", function(e) {
           a.props.inline || a.setOpen(!1),
